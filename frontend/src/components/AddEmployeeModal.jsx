@@ -12,16 +12,19 @@ const AddEmployeeModal = ({ isOpen, onClose, onSubmit }) => {
     Designation: "",
     role: "",
   });
-  
+
   const fetchCandidates = async () => {
-    const res = await axios.get("http://localhost:5000/api/candidates", {
-      headers: {
-        Authorization: localStorage.getItem("token"),
-      },
-    });
+    const res = await axios.get(
+      "https://hrms-mern-project-backend.vercel.app/api/candidates",
+      {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      }
+    );
 
     const data = res.data;
-    
+
     setCandidates(data);
   };
   useEffect(() => {

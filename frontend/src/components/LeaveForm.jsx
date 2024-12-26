@@ -38,7 +38,10 @@ const LeaveForm = ({ onClose }) => {
     if (document) formData.append("document", document);
 
     try {
-      await axios.post("http://localhost:5000/api/leaves", formData);
+      await axios.post(
+        "https://hrms-mern-project-backend.vercel.app/api/leaves",
+        formData
+      );
       alert("Leave request submitted successfully!");
       onClose(); // Close the form modal after submission
     } catch (err) {

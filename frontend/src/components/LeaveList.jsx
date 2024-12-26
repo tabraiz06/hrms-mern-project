@@ -20,17 +20,21 @@ const LeaveList = () => {
 
   useEffect(() => {
     const fetchLeaves = async () => {
-      const res = await axios.get("http://localhost:5000/api/leaves", {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-        },
-      });
+      const res = await axios.get(
+        "https://hrms-mern-project-backend.vercel.app/api/leaves",
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      );
       setLeaves(res.data);
     };
     fetchLeaves();
 
     const fetchEmployees = async () => {
-      const res = await axios.get("http://localhost:5000/api/employees",
+      const res = await axios.get(
+        "https://hrms-mern-project-backend.vercel.app/api/employees",
         {
           headers: {
             Authorization: localStorage.getItem("token"),
@@ -43,14 +47,17 @@ const LeaveList = () => {
   }, []);
 
   const updateLeaveStatus = async (id, status) => {
-    const res = await axios.put(`http://localhost:5000/api/leaves/${id}`, {
-      status,
-    }, {
-      headers: {
-        Authorization: localStorage.getItem("token"),
+    const res = await axios.put(
+      `https://hrms-mern-project-backend.vercel.app/api/leaves/${id}`,
+      {
+        status,
       },
-    }
-  );
+      {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      }
+    );
     setLeaves(
       leaves.map((leave) =>
         leave._id === id ? { ...leave, status: res.data.status } : leave

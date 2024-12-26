@@ -60,11 +60,14 @@ const CandidateList = () => {
   const [statusFilter, setStatusFilter] = useState("");
 
   const fetchCandidates = async () => {
-    const res = await axios.get("http://localhost:5000/api/candidates", {
-      headers: {
-        Authorization: localStorage.getItem("token"),
-      },
-    });
+    const res = await axios.get(
+      "https://hrms-mern-project-backend.vercel.app/api/candidates",
+      {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      }
+    );
 
     const data = res.data;
     console.log(data);
@@ -84,7 +87,6 @@ const CandidateList = () => {
   );
 
   const handleAddCandidate = async (newCandidate) => {
-   
     const formData = new FormData();
     formData.append("name", newCandidate.name);
     formData.append("email", newCandidate.email);
@@ -92,10 +94,9 @@ const CandidateList = () => {
     formData.append("position", newCandidate.position);
     formData.append("experience", newCandidate.experience);
     formData.append("document", newCandidate.resume);
-    
-    
+
     const res = await axios.post(
-      "http://localhost:5000/api/candidates",
+      "https://hrms-mern-project-backend.vercel.app/api/candidates",
       formData,
       {
         headers: {
@@ -104,7 +105,6 @@ const CandidateList = () => {
         },
       }
     );
-    
 
     const newId = candidates.length + 1;
     const updatedCandidates = [
@@ -118,16 +118,19 @@ const CandidateList = () => {
   const statusOptions = ["new", "rejected", "ongoing", "selected", "pending"];
 
   // Handle Status Update
-  const handleStatusUpdate = async(id, newStatus) => {
-    const updateCandidate = await axios.put(`http://localhost:5000/api/candidates/${id}`, { status: newStatus }, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: localStorage.getItem("token"),
-      },
-    });
-    
+  const handleStatusUpdate = async (id, newStatus) => {
+    const updateCandidate = await axios.put(
+      `https://hrms-mern-project-backend.vercel.app/api/candidates/${id}`,
+      { status: newStatus },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: localStorage.getItem("token"),
+        },
+      }
+    );
+
     fetchCandidates();
-   
 
     // const updatedCandidates = candidates.map((candidate) => {
     //   if (candidate.id === id) {
@@ -139,12 +142,14 @@ const CandidateList = () => {
   };
 
   const handleDelete = async (id) => {
-    const res = await axios.delete(`http://localhost:5000/api/candidates/${id}`, {
-      headers: {
-        Authorization: localStorage.getItem("token"),
-      },
-      
-    });
+    const res = await axios.delete(
+      `https://hrms-mern-project-backend.vercel.app/api/candidates/${id}`,
+      {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      }
+    );
 
     fetchCandidates();
   };
@@ -276,8 +281,11 @@ const CandidateList = () => {
                     Download
                   </a>
                 </td>
-                <td className="py-4 px-6" onClick={() => handleDelete(candidate._id)}>
-                  <button className="text-red-500 hover:text-red-700" >
+                <td
+                  className="py-4 px-6"
+                  onClick={() => handleDelete(candidate._id)}
+                >
+                  <button className="text-red-500 hover:text-red-700">
                     Delete
                   </button>
                 </td>

@@ -9,68 +9,69 @@ const EmployeeList = () => {
   const [filters, setFilters] = useState({ search: "", position: "" });
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
- const [isModalOpen, setIsModalOpen] = useState(false);
-const fetchEmployees = async () => {
-  const res = await axios.get("http://localhost:5000/api/employees", {
-    headers: {
-      Authorization: localStorage.getItem("token"),
-    },
-  });
-  setEmployees(res.data);
-  
-};
- useEffect(() => {
-    
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const fetchEmployees = async () => {
+    const res = await axios.get(
+      "https://hrms-mern-project-backend.vercel.app/api/employees",
+      {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      }
+    );
+    setEmployees(res.data);
+  };
+  useEffect(() => {
     fetchEmployees();
   }, []);
 
-  const filteredEmployees = employees.filter((employee) =>
-    employee.name.toLowerCase().includes(filters.search.toLowerCase()) &&
-    employee.Designation.toLowerCase().includes(filters.position.toLowerCase())
+  const filteredEmployees = employees.filter(
+    (employee) =>
+      employee.name.toLowerCase().includes(filters.search.toLowerCase()) &&
+      employee.Designation.toLowerCase().includes(
+        filters.position.toLowerCase()
+      )
   );
 
- const addEmployee = async (newEmployee) => {
-   const res = await axios.post(
-     "http://localhost:5000/api/employees",
-     newEmployee,
-     {
-       headers: {
-         Authorization: localStorage.getItem("token"),
-       },
-     }
-   );
-   if (res.status === 201) {
-     fetchEmployees();
-     setIsModalOpen(false);
-   }
-   else {
+  const addEmployee = async (newEmployee) => {
+    const res = await axios.post(
+      "https://hrms-mern-project-backend.vercel.app/api/employees",
+      newEmployee,
+      {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      }
+    );
+    if (res.status === 201) {
+      fetchEmployees();
+      setIsModalOpen(false);
+    } else {
       alert("Employee already exists");
     }
-   
-   
- };
-
- 
+  };
 
   const deleteEmployee = async (id) => {
-    await axios.delete(`http://localhost:5000/api/employees/${id}`,{
-      headers: {
-        Authorization: localStorage.getItem("token"),
-      },
-    });
+    await axios.delete(
+      `https://hrms-mern-project-backend.vercel.app/api/employees/${id}`,
+      {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      }
+    );
     setEmployees(employees.filter((employee) => employee._id !== id));
-    
   };
 
   const handleEditDeleteChange = (event, employee) => {
     setAnchorEl(event.currentTarget);
     setSelectedEmployee(event.value);
-    
-    // 
+
+    //
     if (event.target.value === "delete") {
       deleteEmployee(employee._id);
     }
-  }
+  };
   return (
     <div className="container mx-auto mt-8">
       <ReusableHeader />
@@ -136,15 +137,14 @@ const fetchEmployees = async () => {
                 {new Date(employee.joinDate).toLocaleDateString()}
               </td>
               <td className="py-2">
-                <select name="" id="" onChange={(e) => handleEditDeleteChange(e, employee)}>
+                <select
+                  name=""
+                  id=""
+                  onChange={(e) => handleEditDeleteChange(e, employee)}
+                >
                   <option value="">Actions</option>
-                  <option value='edit'>Edit</option>
-                  <option
-                    value='delete'
-                    
-                  >
-                    Delete
-                  </option>
+                  <option value="edit">Edit</option>
+                  <option value="delete">Delete</option>
                 </select>
               </td>
             </tr>

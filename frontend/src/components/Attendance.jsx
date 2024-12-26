@@ -37,14 +37,17 @@ const Attendance = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterDepartment, setFilterDepartment] = useState("");
   const fetchAttendance = async () => {
-    const res = await fetch("http://localhost:5000/api/employees", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: localStorage.getItem("token"),
-      },
-    });
+    const res = await fetch(
+      "https://hrms-mern-project-backend.vercel.app/api/employees",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: localStorage.getItem("token"),
+        },
+      }
+    );
     const data = await res.json();
-    
+
     setAttendance(data);
   };
   useEffect(() => {
@@ -67,7 +70,6 @@ const Attendance = () => {
   );
 
   const handleStatusUpdate = (id, newStatus) => {
-    
     const updatedAttendance = attendance.map((item) =>
       item.id === id ? { ...item, status: newStatus } : item
     );

@@ -11,7 +11,7 @@ export default function Login() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        "https://hrms-mern-project-backend.vercel.app/api/auth/login",
         {
           email,
           password,

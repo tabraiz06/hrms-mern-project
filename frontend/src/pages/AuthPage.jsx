@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Login from "../components/Login";
 import Register from "../components/Register";
-import Logo from '../assets/logo.png';
+import Logo from '../assets/Logo.png';
 import Onbording from '../assets/Onboarding.png';
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);

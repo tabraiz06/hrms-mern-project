@@ -12,9 +12,11 @@ import {
   FaEllipsisH,
   FaSignOutAlt,
 } from "react-icons/fa";
+import Logout from "./Logout";
 
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
+   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -121,9 +123,9 @@ const Sidebar = () => {
             </Link>
           </li>
 
-          <li className="mt-1" onClick={logout}>
+          <li className="mt-1" onClick={() => setIsLogoutModalOpen(true)}>
             <Link
-              to="/logout"
+              
               className="flex items-center gap-4 p-4 text-red-500 hover:bg-red-100 rounded-lg"
             >
               <FaSignOutAlt size={20} />
@@ -132,6 +134,13 @@ const Sidebar = () => {
           </li>
         </ul>
       </nav>
+      {
+        isLogoutModalOpen && (
+          <Logout
+            handleLogout={logout}
+            setIsLogoutModalOpen={setIsLogoutModalOpen}
+          />)
+      }
     </div>
   );
 };

@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+input {
+  @apply bg-gray-200;
+}
+.box{
+  height: 20px;
+  width: 20px;
+}

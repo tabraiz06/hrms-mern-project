@@ -95,22 +95,20 @@ const CandidateList = () => {
     formData.append("position", newCandidate.position);
     formData.append("experience", newCandidate.experience);
     formData.append("document", newCandidate.resume);
-// http://localhost:5000/api/candidates
-// https://hrms-mern-project-backend.vercel.app/api/candidates
+    // http://localhost:5000/api/candidates
+    // http://localhost:5000/api/candidates/api/candidates
 
     const res = await axios.post(
-      "https://hrms-mern-project-backend.vercel.app/api/candidates",
+      "http://localhost:5000/api/candidates/api/candidates",
       formData,
       {
         headers: {
-          "Content-Type": "multipart/form-data",
           Authorization: localStorage.getItem("token"),
         },
       }
     );
+    console.log(res.data)
     fetchCandidates();
-
-    
   };
 
   // Status Options

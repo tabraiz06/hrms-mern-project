@@ -7,7 +7,7 @@ const path = require("path");
 exports.createLeave = async (req, res) => {
   const { employeeId, leaveType, startDate, endDate, reason } = req.body;
   const document = req.file ? req.file.filename : null;
-
+console.log("Request file:" , req.body);
   try {
     const leave = await Leave.create({ employeeId, leaveType, startDate, endDate, reason, document });
     res.status(201).json(leave);
@@ -18,25 +18,13 @@ exports.createLeave = async (req, res) => {
 
 // Get Leaves (With Filters)
 exports.getLeaves = async (req, res) => {
-  const { status, employeeId, name } = req.query;
+  
   try {
-    let query = {};
-    if (status) query.status = status;
-    if (employeeId) query.employeeId = employeeId;
-
-    // Search by employee name
-    if (name) {
-      const employees = await Employee.find({
-        name: { $regex: name, $options: "i" },
-      });
-      const employeeIds = employees.map((emp) => emp._id);
-      query.employeeId = { $in: employeeIds };
-    }
-
-    const leaves = await Leave.find(query)
-      .populate("employeeId", "name department")
+   const leaves = await Leave.find()
+      .populate("employeeId")
       .sort({ startDate: 1 });
     res.json(leaves);
+   
   } catch (err) {
     res.status(500).json({ message: "Error fetching leaves" });
   }

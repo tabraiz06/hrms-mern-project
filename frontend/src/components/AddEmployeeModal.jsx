@@ -9,8 +9,8 @@ const AddEmployeeModal = ({ isOpen, onClose, onSubmit }) => {
     email: "",
     phone: "",
     department: "",
-    Designation: "",
     role: "",
+    profilePic: "",
   });
 
   const fetchCandidates = async () => {
@@ -42,13 +42,18 @@ const AddEmployeeModal = ({ isOpen, onClose, onSubmit }) => {
   // Handle Form Submission
   const handleSubmit = (e) => {
     e.preventDefault();
+    const isImage = formData.profilePic && formData.profilePic.type.startsWith("image/");
+  if (!isImage) {
+    alert("Please upload a valid image file for the profile picture.");
+    return;
+  }
     onSubmit(formData);
     setFormData({
       employeeId: "",
       email: "",
       phone: "",
       department: "",
-      Designation: "",
+      profilePic: "",
       role: "",
     });
     onClose();
@@ -127,14 +132,15 @@ const AddEmployeeModal = ({ isOpen, onClose, onSubmit }) => {
               />
             </div>
 
-            {/* Designation */}
+            {/* profilePic */}
             <div>
               <label className="block mb-2 text-gray-700">Designation</label>
               <input
-                type="text"
-                name="Designation"
-                value={formData.Designation}
-                onChange={handleChange}
+                type="file"
+                name="profilePic"
+                onChange={(e) =>
+                  setFormData({ ...formData, profilePic: e.target.files[0] })
+                }
                 required
                 className="w-full p-2 border rounded-md"
               />

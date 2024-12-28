@@ -12,6 +12,7 @@ const seedDB = async () => {
   await Candidate.insertMany(candidates);
   await Employee.deleteMany({});
   await Employee.insertMany(employees);
+ 
   console.log("Database seeded!");
     process.exit();
 };

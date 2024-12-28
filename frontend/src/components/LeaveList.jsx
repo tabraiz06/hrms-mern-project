@@ -3,6 +3,7 @@ import axios from "axios";
 import ReusableHeader from "./ReusableHeader";
 
 import AddLeaveModal from "./AddLeaveModal";
+import { FaBuromobelexperte } from "react-icons/fa";
 
 const LeaveList = () => {
   const [leaves, setLeaves] = useState([]);
@@ -20,15 +21,13 @@ const LeaveList = () => {
 
   useEffect(() => {
     const fetchLeaves = async () => {
-      const res = await axios.get(
-        "https://hrms-mern-project-backend.vercel.app/api/leaves",
-        {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        }
-      );
-      setLeaves(res.data);
+      const res = await axios.get("https://hrms-mern-project-backend.vercel.app/api/leaves", {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      });
+      console.log(res.data);
+      setLeaves(res.data || []);
     };
     fetchLeaves();
 
@@ -66,12 +65,23 @@ const LeaveList = () => {
   };
 
   const addLeave = async () => {
+    console.log(newLeave);
     const formData = new FormData();
-    Object.keys(newLeave).forEach((key) => {
-      formData.append(key, newLeave[key]);
-    });
+    
+    formData.append("employeeId", newLeave.employeeId);
+    formData.append("leaveType", newLeave.leaveType);
+    formData.append("startDate", newLeave.startDate);
+    formData.append("endDate", newLeave.endDate);
+    formData.append("reason", newLeave.reason);
+    formData.append("document", newLeave.document);
 
-    const res = await axios.post("/api/leaves", formData);
+
+    const res = await axios.post("https://hrms-mern-project-backend.vercel.app/api/leaves", formData,{
+      headers: {
+        
+        Authorization: localStorage.getItem("token"),
+      },
+    });
     setLeaves([...leaves, res.data]);
     setIsModalOpen(false);
     setNewLeave({
@@ -128,37 +138,47 @@ const LeaveList = () => {
           </tr>
         </thead>
         <tbody>
-          {leaves.map((leave) => (
-            <tr key={leave._id} className="border-b">
-              <td className="py-2 flex justify-center items-center gap-4">
-                <img
-                  src={`https://cdn.prod.website-files.com/659f77ad8e06050cc27ed531/65ef63f6bd30ab838939a4ae_Developer%20productivity%20tools%202024.webp`}
-                  alt="employee"
-                  className="w-10 h-10 object-cover rounded-full"
-                />
-                {leave.employeeId.name}
-              </td>
-              <td className="py-2">{leave.leaveType}</td>
-              <td className="py-2">
-                {new Date(leave.startDate).toLocaleDateString()}
-              </td>
-              <td className="py-2">
-                {new Date(leave.endDate).toLocaleDateString()}
-              </td>
-              <td className="py-2">{leave.reason}</td>
-              <td className="py-2">
-                <select
-                  value={leave.status}
-                  onChange={(e) => updateLeaveStatus(leave._id, e.target.value)}
-                  className="border p-2"
-                >
-                  <option value="Approved">Approved</option>
-                  <option value="Pending">Pending</option>
-                  <option value="Rejected">Rejected</option>
-                </select>
+          {leaves.length === 0 && (
+            <tr>
+              <td colSpan="6" className="py-4">
+                No leaves found
               </td>
             </tr>
-          ))}
+          )}
+          {leaves.length > 0 &&
+            leaves.map((leave) => (
+              <tr key={leave._id} className="border-b">
+                <td className="py-2 flex justify-center items-center gap-4">
+                  <img
+                    src={`./files/${leave.employeeId.profilePic}`}
+                    alt="employee"
+                    className="w-10 h-10 object-cover rounded-full"
+                  />
+                  {leave.employeeId.name}
+                </td>
+                <td className="py-2">{leave.leaveType}</td>
+                <td className="py-2">
+                  {new Date(leave.startDate).toLocaleDateString()}
+                </td>
+                <td className="py-2">
+                  {new Date(leave.endDate).toLocaleDateString()}
+                </td>
+                <td className="py-2">{leave.reason}</td>
+                <td className="py-2">
+                  <select
+                    value={leave.status}
+                    onChange={(e) =>
+                      updateLeaveStatus(leave._id, e.target.value)
+                    }
+                    className="border p-2"
+                  >
+                    <option value="Approved">Approved</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Rejected">Rejected</option>
+                  </select>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
 

@@ -10,6 +10,7 @@ const EmployeeList = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const fetchEmployees = async () => {
     const res = await axios.get(
       "https://hrms-mern-project-backend.vercel.app/api/employees",
@@ -20,6 +21,7 @@ const EmployeeList = () => {
       }
     );
     setEmployees(res.data);
+    console.log(res.data)
   };
   useEffect(() => {
     fetchEmployees();
@@ -28,15 +30,27 @@ const EmployeeList = () => {
   const filteredEmployees = employees.filter(
     (employee) =>
       employee.name.toLowerCase().includes(filters.search.toLowerCase()) &&
-      employee.Designation.toLowerCase().includes(
-        filters.position.toLowerCase()
-      )
+      (filters.role ?  employee.role === filters.role  : true)
+
   );
 
   const addEmployee = async (newEmployee) => {
+    const fromData = new FormData();
+
+    fromData.append("name", newEmployee.name);
+    fromData.append("email", newEmployee.email);
+    fromData.append("phone", newEmployee.phone);
+    
+    fromData.append("department", newEmployee.department);
+    fromData.append("role", newEmployee.role);
+    
+    fromData.append("profilePic", newEmployee.profilePic);
+    
+    // http://localhost:5000
+    // https://hrms-mern-project-backend.vercel.app
     const res = await axios.post(
       "https://hrms-mern-project-backend.vercel.app/api/employees",
-      newEmployee,
+      fromData,
       {
         headers: {
           Authorization: localStorage.getItem("token"),
@@ -84,9 +98,7 @@ const EmployeeList = () => {
             className="border p-2"
           />
           <select
-            onChange={(e) =>
-              setFilters({ ...filters, position: e.target.value })
-            }
+            onChange={(e) => setFilters({ ...filters, role: e.target.value })}
             className="border p-2"
           >
             <option value="">Filter by Position</option>
@@ -112,43 +124,55 @@ const EmployeeList = () => {
             <th className="py-2">Name</th>
             <th className="py-2">Email</th>
             <th className="py-2">Phone Number</th>
-            <th className="py-2">Position</th>
+            <th className="py-2">Role</th>
             <th className="py-2">Department</th>
             <th className="py-2">Date of Joining</th>
             <th className="py-2">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {filteredEmployees.map((employee) => (
-            <tr key={employee._id} className="border-b">
-              <td className="py-2">
-                <img
-                  src="https://t3.ftcdn.net/jpg/07/13/35/82/360_F_713358254_pM12hayFvGkMbXwU1wERawwC2Tu3Mfpy.jpg"
-                  alt="Profile"
-                  className="w-10 h-10 rounded-full"
-                />
-              </td>
-              <td className="py-2">{employee.name}</td>
-              <td className="py-2">{employee.email}</td>
-              <td className="py-2">{employee.phone}</td>
-              <td className="py-2">{employee.Designation}</td>
-              <td className="py-2">{employee.department}</td>
-              <td className="py-2">
-                {new Date(employee.joinDate).toLocaleDateString()}
-              </td>
-              <td className="py-2">
-                <select
-                  name=""
-                  id=""
-                  onChange={(e) => handleEditDeleteChange(e, employee)}
-                >
-                  <option value="">Actions</option>
-                  <option value="edit">Edit</option>
-                  <option value="delete">Delete</option>
-                </select>
-              </td>
-            </tr>
-          ))}
+          {
+            // Mapping through the filtered employees
+            filteredEmployees.length === 0 ? (
+              <tr>
+                <td colSpan="8" className="py-4">
+                  No employees found
+                </td>
+                {console.log(filteredEmployees)}
+              </tr>
+            ) : (
+              filteredEmployees.map((employee) => (
+                <tr key={employee._id} className="border-b">
+                  <td className="py-2">
+                    <img
+                      src={`./files/${employee.profilePic}`}
+                      alt="Profile"
+                      className="w-10 h-10 rounded-full"
+                    />
+                  </td>
+                  <td className="py-2">{employee.name}</td>
+                  <td className="py-2">{employee.email}</td>
+                  <td className="py-2">{employee.phone}</td>
+                  <td className="py-2">{employee.role}</td>
+                  <td className="py-2">{employee.department}</td>
+                  <td className="py-2">
+                    {new Date(employee.joinDate).toLocaleDateString()}
+                  </td>
+                  <td className="py-2">
+                    <select
+                      name=""
+                      id=""
+                      onChange={(e) => handleEditDeleteChange(e, employee)}
+                    >
+                      <option value="">Actions</option>
+                      <option value="edit">Edit</option>
+                      <option value="delete">Delete</option>
+                    </select>
+                  </td>
+                </tr>
+              ))
+            )
+          }
         </tbody>
       </table>
       {/* //modal for add new employee */}

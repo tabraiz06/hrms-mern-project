@@ -87,6 +87,7 @@ const CandidateList = () => {
   );
 
   const handleAddCandidate = async (newCandidate) => {
+    console.log(newCandidate);
     const formData = new FormData();
     formData.append("name", newCandidate.name);
     formData.append("email", newCandidate.email);
@@ -94,24 +95,22 @@ const CandidateList = () => {
     formData.append("position", newCandidate.position);
     formData.append("experience", newCandidate.experience);
     formData.append("document", newCandidate.resume);
+// http://localhost:5000/api/candidates
+// https://hrms-mern-project-backend.vercel.app/api/candidates
 
     const res = await axios.post(
       "https://hrms-mern-project-backend.vercel.app/api/candidates",
       formData,
       {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
           Authorization: localStorage.getItem("token"),
         },
       }
     );
+    fetchCandidates();
 
-    const newId = candidates.length + 1;
-    const updatedCandidates = [
-      ...candidates,
-      { id: newId, ...newCandidate, status: "new" },
-    ];
-    setCandidates(updatedCandidates);
+    
   };
 
   // Status Options
@@ -277,7 +276,11 @@ const CandidateList = () => {
 
                 <td className="py-4 px-6">{candidate.experience}</td>
                 <td className="py-4 px-6">
-                  <a href="#" className="text-blue-500 hover:underline">
+                  <a
+                    href={`./files/${candidate.resume}`}
+                    download={candidate.resume}
+                    className="text-blue-500 hover:underline"
+                  >
                     Download
                   </a>
                 </td>

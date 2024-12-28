@@ -1,13 +1,15 @@
 const Candidate = require("../models/Candidate");
 const fs = require("fs");
-const path = require("path");
+
 const PDFDocument = require("pdfkit");
 
 // Create Candidate
 exports.createCandidate = async (req, res) => {
+  
   try {
+    
     const { name, email, phone, position, experience } = req.body;
-    const resume = req.file ? req.file.path : null;
+    const resume = req.file ? req.file.filename : null;
 
     // Log the resume path to verify it
     console.log("Resume path:", resume);
@@ -30,6 +32,7 @@ exports.createCandidate = async (req, res) => {
 
 // Get All Candidates
 exports.getCandidates = async (req, res) => {
+  
   try {
     const candidates = await Candidate.find();
     res.json(candidates);

@@ -1,5 +1,6 @@
 const Employee = require("../models/Employee");
 const Attendance = require("../models/Attendance");
+const mongoose = require("mongoose");
 // Create Employee
 exports.createEmployee = async (req, res) => {
   const { name, email, phone, department, role } = req.body;
@@ -56,13 +57,25 @@ exports.updateEmployee = async (req, res) => {
 // Delete Employee
 exports.deleteEmployee = async (req, res) => {
   try {
-    await Employee.findByIdAndDelete({ _id: req.params.id });
+    console.log("Delete request received for employee:", req.params.id);
+    const employeeId = new mongoose.Types.ObjectId(req.params.id);
+
     // Remove attendance records of deleted employee
-    await Attendance.deleteMany({ employeeId: id });
+    const attendanceResult = await Attendance.deleteMany({ employeeId });
+
+    const deletedEmployee = await Employee.findByIdAndDelete({
+      _id: employeeId,
+    });
+    if (!deletedEmployee) {
+      console.log("Employee not found.");
+      return res.status(404).json({ message: "Employee not found" });
+    }
+
     res.status(200).json({
       message: "Employee and related attendance records deleted successfully",
     });
   } catch (err) {
+    console.error("Error deleting employee:", err.message);
     res.status(500).json({ message: "Error deleting employee" });
   }
 };

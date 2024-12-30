@@ -186,7 +186,7 @@ const Attendance = () => {
                     <td className="py-4 px-6">
                       <img
                         src="https://t3.ftcdn.net/jpg/06/01/17/18/360_F_601171862_l7yZ0wujj8o2SowiKTUsfLEEx8KunYNd.jpg"
-                        alt={employee.name}
+                        alt={employee.employeeId.name}
                         className="w-10 h-10 rounded-full"
                       />
                     </td>

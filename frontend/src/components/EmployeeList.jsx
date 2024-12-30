@@ -49,7 +49,7 @@ const EmployeeList = () => {
     // http://localhost:5000
     // https://hrms-mern-project-backend.vercel.app
     const res = await axios.post(
-      "http://localhost:5000/api/employees",
+      "https://hrms-mern-project-backend.vercel.app/api/employees",
       fromData,
       {
         headers: {

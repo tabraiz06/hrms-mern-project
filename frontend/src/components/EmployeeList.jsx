@@ -21,7 +21,7 @@ const EmployeeList = () => {
       }
     );
     setEmployees(res.data);
-    console.log(res.data)
+    console.log(res.data);
   };
   useEffect(() => {
     fetchEmployees();
@@ -30,8 +30,7 @@ const EmployeeList = () => {
   const filteredEmployees = employees.filter(
     (employee) =>
       employee.name.toLowerCase().includes(filters.search.toLowerCase()) &&
-      (filters.role ?  employee.role === filters.role  : true)
-
+      (filters.role ? employee.role === filters.role : true)
   );
 
   const addEmployee = async (newEmployee) => {
@@ -40,12 +39,12 @@ const EmployeeList = () => {
     fromData.append("name", newEmployee.name);
     fromData.append("email", newEmployee.email);
     fromData.append("phone", newEmployee.phone);
-    
+
     fromData.append("department", newEmployee.department);
     fromData.append("role", newEmployee.role);
-    
+
     fromData.append("profilePic", newEmployee.profilePic);
-    
+
     // http://localhost:5000
     // https://hrms-mern-project-backend.vercel.app
     const res = await axios.post(

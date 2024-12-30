@@ -1,7 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 const fs = require("fs");
-
+const path = require('path')
 const {
   createEmployee,
   getEmployees,
@@ -13,14 +13,16 @@ const protect = require("../middleware/authMiddleware");
 const router = express.Router();
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    // Create the 'files' directory if it doesn't exist
-    const dir = "../frontend/public/files/";
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-    }
-    cb(null, dir);
-  },
+  destination: (req, file, cb) => {
+      const uploadPath = path.join(__dirname, "../../frontend/public/files/");
+  
+      // Check if the directory exists, if not, create it
+      if (!fs.existsSync(uploadPath)) {
+        fs.mkdirSync(uploadPath, { recursive: true }); // recursive ensures parent directories are created if missing
+      }
+  
+      cb(null, uploadPath);
+    },
   filename: function (req, file, cb) {
     cb(null, file.originalname);
   },

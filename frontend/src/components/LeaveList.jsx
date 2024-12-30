@@ -95,7 +95,7 @@ const LeaveList = () => {
   };
 
   return (
-    <div className="container mx-auto mt-8 ">
+    <div className="container mx-auto mt-8 p-8">
       <div className="flex justify-between">
         <h1 className="text-3xl font-bold">Leaves</h1>
         <ReusableHeader />

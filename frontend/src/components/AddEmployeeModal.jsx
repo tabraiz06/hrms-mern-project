@@ -134,7 +134,7 @@ const AddEmployeeModal = ({ isOpen, onClose, onSubmit }) => {
 
             {/* profilePic */}
             <div>
-              <label className="block mb-2 text-gray-700">Designation</label>
+              <label className="block mb-2 text-gray-700">Profile Picture</label>
               <input
                 type="file"
                 name="profilePic"

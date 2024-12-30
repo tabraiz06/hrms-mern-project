@@ -124,7 +124,7 @@ const Attendance = () => {
   };
 
   return (
-    <div className="p-8">
+    <div className="p-8 overflow-y-auto">
       {/* Header Section */}
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">Attendance</h1>
@@ -154,7 +154,7 @@ const Attendance = () => {
       </div>
 
       {/* Attendance Table */}
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto max-h-[75vh]">
         <table className="w-full bg-white rounded-lg shadow-lg">
           <thead className="bg-gray-100">
             <tr>
@@ -190,7 +190,9 @@ const Attendance = () => {
                         className="w-10 h-10 rounded-full"
                       />
                     </td>
-                    <td className="py-4 px-6">{employee.employeeId.name || ""}</td>
+                    <td className="py-4 px-6">
+                      {employee.employeeId.name || ""}
+                    </td>
                     <td className="py-4 px-6">
                       {employee.employeeId.department}
                     </td>

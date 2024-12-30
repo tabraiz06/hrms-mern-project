@@ -49,7 +49,7 @@ const EmployeeList = () => {
     // http://localhost:5000
     // https://hrms-mern-project-backend.vercel.app
     const res = await axios.post(
-      "https://hrms-mern-project-backend.vercel.app/api/employees",
+      "http://localhost:5000/api/employees",
       fromData,
       {
         headers: {
@@ -87,8 +87,11 @@ const EmployeeList = () => {
     }
   };
   return (
-    <div className="container mx-auto mt-8">
-      <ReusableHeader />
+    <div className="container mx-auto mt-8 p-8">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold">Employees</h1>
+        <ReusableHeader />
+      </div>
       <div className="flex justify-between items-center my-4">
         <div className="flex gap-4">
           <input

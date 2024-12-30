@@ -1,18 +1,17 @@
 const Employee = require("../models/Employee");
-const Attendance = require('../models/Attendance')
+const Attendance = require("../models/Attendance");
 // Create Employee
 exports.createEmployee = async (req, res) => {
   const { name, email, phone, department, role } = req.body;
-  const profilePic =req.file ? req.file.filename : "";
-  console.log(req.body);
-  console.log(req.file);
+  const profilePic = req.file ? req.file.filename : "";
+
   try {
-    const existEmployee = await Employee.findOne({ email})
-    if(existEmployee) {
+    const existEmployee = await Employee.findOne({ email });
+    if (existEmployee) {
       return res.status(400).json({ message: "Employee already exists" });
     }
     const employee = await Employee.create({
-      profilePic ,
+      profilePic,
       name,
       email,
       phone,
@@ -60,11 +59,9 @@ exports.deleteEmployee = async (req, res) => {
     await Employee.findByIdAndDelete({ _id: req.params.id });
     // Remove attendance records of deleted employee
     await Attendance.deleteMany({ employeeId: id });
-    res
-      .status(200)
-      .json({
-        message: "Employee and related attendance records deleted successfully",
-      });
+    res.status(200).json({
+      message: "Employee and related attendance records deleted successfully",
+    });
   } catch (err) {
     res.status(500).json({ message: "Error deleting employee" });
   }

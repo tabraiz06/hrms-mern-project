@@ -4,10 +4,10 @@ import Sidebar from '../components/Sidebar';
 
 const AttendencePage = () => {
   return (
-    <div className="flex">
+    <div className="flex max-h-screen overflow-hidden">
       <Sidebar />
-      <div className="flex-1 p-6">
-       <Attendance />
+      <div className="flex-1 max-h-screen overflow-hidden">
+        <Attendance />
       </div>
     </div>
   );

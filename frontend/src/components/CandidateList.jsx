@@ -96,10 +96,10 @@ const CandidateList = () => {
     formData.append("experience", newCandidate.experience);
     formData.append("document", newCandidate.resume);
     // http://localhost:5000/api/candidates
-    // http://localhost:5000/api/candidates/api/candidates
+    // https://hrms-mern-project-backend.vercel.app/api/candidates
 
     const res = await axios.post(
-      "http://localhost:5000/api/candidates/api/candidates",
+      "https://hrms-mern-project-backend.vercel.app/api/candidates",
       formData,
       {
         headers: {
@@ -107,7 +107,7 @@ const CandidateList = () => {
         },
       }
     );
-    console.log(res.data)
+    console.log(res.data);
     fetchCandidates();
   };
 
@@ -168,7 +168,7 @@ const CandidateList = () => {
   };
 
   return (
-    <div className="p-8 h-screen overflow-y-auto">
+    <div className="p-8  overflow-y-auto">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">Candidates</h1>
         <ReusableHeader />
@@ -221,7 +221,7 @@ const CandidateList = () => {
         </div>
       </div>
 
-      <div className="overflow-x-auto overflow-y-auto">
+      <div className="overflow-x-auto overflow-y-auto max-h-[75vh]">
         <table className="w-full bg-white rounded-lg shadow-lg text-center">
           <thead className="bg-gray-100">
             <tr>

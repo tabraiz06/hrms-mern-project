@@ -20,10 +20,10 @@ const App = () => {
     return isAuthenticated ? element : <Navigate to="/login" />;
   };
   return (
-    <div className="flex">
+    <div className="flex max-h-screen overflow-hidden">
       <Sidebar />
-      <div className="flex-1 p-6">
-       <CandidateList />
+      <div className="flex-1 max-h-screen overflow-hidden">
+        <CandidateList />
       </div>
     </div>
   );

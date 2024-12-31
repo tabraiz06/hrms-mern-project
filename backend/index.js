@@ -24,7 +24,7 @@ app.get("/", (req, res) => {
 
 
 // Serve uploads as static files
-app.use("/uploads", express.static("/tmp/uploads"));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 
 

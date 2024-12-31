@@ -8,6 +8,8 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // http://localhost:5000
+    // https://hrms-mern-project-backend.vercel.app/api/auth/register
     try {
       const response = await axios.post(
         "https://hrms-mern-project-backend.vercel.app/api/auth/register",

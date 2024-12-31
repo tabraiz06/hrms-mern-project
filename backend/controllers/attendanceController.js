@@ -21,7 +21,7 @@ exports.getAttendanceRecords = async (req, res) => {
   try {
     
 
-    const records = await Attendance.find().populate("employeeId");
+    const records = await Attendance.find({userId:req.user.id}).populate("employeeId");
     res.json(records);
   } catch (err) {
     res.status(500).json({ message: "Error fetching attendance records" });

@@ -20,6 +20,8 @@ const LeaveList = () => {
   const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
+    // http://localhost:5000
+    // https://hrms-mern-project-backend.vercel.app/api/leaves
     const fetchLeaves = async () => {
       const res = await axios.get("https://hrms-mern-project-backend.vercel.app/api/leaves", {
         headers: {
@@ -32,14 +34,11 @@ const LeaveList = () => {
     fetchLeaves();
 
     const fetchEmployees = async () => {
-      const res = await axios.get(
-        "https://hrms-mern-project-backend.vercel.app/api/employees",
-        {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        }
-      );
+      const res = await axios.get("https://hrms-mern-project-backend.vercel.app/api/employees", {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      });
       setEmployees(res.data);
     };
     fetchEmployees();
@@ -76,9 +75,8 @@ const LeaveList = () => {
     formData.append("document", newLeave.document);
 
 
-    const res = await axios.post("https://hrms-mern-project-backend.vercel.app/api/leaves", formData,{
+    const res = await axios.post("https://hrms-mern-project-backend.vercel.app/api/leaves", formData, {
       headers: {
-        
         Authorization: localStorage.getItem("token"),
       },
     });
@@ -150,7 +148,7 @@ const LeaveList = () => {
               <tr key={leave._id} className="border-b">
                 <td className="py-2 flex justify-center items-center gap-4">
                   <img
-                    src={`./files/${leave.employeeId.profilePic}`}
+                    src={`https://hrms-mern-project-backend.vercel.app/uploads/${leave.employeeId.profilePic}`}
                     alt="employee"
                     className="w-10 h-10 object-cover rounded-full"
                   />

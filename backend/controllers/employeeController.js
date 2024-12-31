@@ -12,6 +12,7 @@ exports.createEmployee = async (req, res) => {
       return res.status(400).json({ message: "Employee already exists" });
     }
     const employee = await Employee.create({
+      userId:req.user.id,
       profilePic,
       name,
       email,

@@ -13,24 +13,25 @@ const protect = require("../middleware/authMiddleware");
 const router = express.Router();
 
 
-// Set up multer storage
+/// Set up multer storage to save in backend/uploads/
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-      const uploadPath = path.join(__dirname, "../../frontend/public/files/");
-  
-      // Check if the directory exists, if not, create it
-      if (!fs.existsSync(uploadPath)) {
-        fs.mkdirSync(uploadPath, { recursive: true }); // recursive ensures parent directories are created if missing
-      }
-  
-      cb(null, uploadPath);
-    },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
+    const uploadPath = path.join(__dirname, "../uploads/");
+
+    // Create the uploads directory if it doesn't exist
+    if (!fs.existsSync(uploadPath)) {
+      fs.mkdirSync(uploadPath, { recursive: true });
+    }
+
+    cb(null, uploadPath);
+  },
+  filename: (req, file, cb) => {
+    // Use timestamp and original file name for uniqueness
+    cb(null, `${Date.now()}-${file.originalname}`);
   },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
 
 // Leave Routes
 router.post("/", protect, upload.single("document"), createLeave);

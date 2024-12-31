@@ -12,14 +12,11 @@ const EmployeeList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const fetchEmployees = async () => {
-    const res = await axios.get(
-      "https://hrms-mern-project-backend.vercel.app/api/employees",
-      {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-        },
-      }
-    );
+    const res = await axios.get("https://hrms-mern-project-backend.vercel.app/api/employees", {
+      headers: {
+        Authorization: localStorage.getItem("token"),
+      },
+    });
     setEmployees(res.data);
     console.log(res.data);
   };
@@ -65,14 +62,11 @@ const EmployeeList = () => {
   };
 
   const deleteEmployee = async (id) => {
-    await axios.delete(
-      `https://hrms-mern-project-backend.vercel.app/api/employees/${id}`,
-      {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-        },
-      }
-    );
+    await axios.delete(`https://hrms-mern-project-backend.vercel.app/api/employees/${id}`, {
+      headers: {
+        Authorization: localStorage.getItem("token"),
+      },
+    });
     setEmployees(employees.filter((employee) => employee._id !== id));
   };
 
@@ -147,7 +141,7 @@ const EmployeeList = () => {
                 <tr key={employee._id} className="border-b">
                   <td className="py-2">
                     <img
-                      src={`./files/${employee.profilePic}`}
+                      src={`https://hrms-mern-project-backend.vercel.app/uploads/${employee.profilePic}`}
                       alt="Profile"
                       className="w-10 h-10 rounded-full"
                     />

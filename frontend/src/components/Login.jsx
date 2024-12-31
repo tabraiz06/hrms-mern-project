@@ -9,6 +9,8 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // http://localhost:5000
+    //https://hrms-mern-project-backend.vercel.app/api/auth/login
     try {
       const response = await axios.post(
         "https://hrms-mern-project-backend.vercel.app/api/auth/login",

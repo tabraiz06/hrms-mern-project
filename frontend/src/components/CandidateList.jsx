@@ -60,14 +60,11 @@ const CandidateList = () => {
   const [statusFilter, setStatusFilter] = useState("");
 
   const fetchCandidates = async () => {
-    const res = await axios.get(
-      "https://hrms-mern-project-backend.vercel.app/api/candidates",
-      {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-        },
-      }
-    );
+    const res = await axios.get("https://hrms-mern-project-backend.vercel.app/api/candidates", {
+      headers: {
+        Authorization: localStorage.getItem("token"),
+      },
+    });
 
     const data = res.data;
     console.log(data);
@@ -275,8 +272,9 @@ const CandidateList = () => {
                 <td className="py-4 px-6">{candidate.experience}</td>
                 <td className="py-4 px-6">
                   <a
-                    href={`./files/${candidate.resume}`}
+                    href={`https://hrms-mern-project-backend.vercel.app/uploads/${candidate.resume}`}
                     download={candidate.resume}
+                    target="_blank"
                     className="text-blue-500 hover:underline"
                   >
                     Download

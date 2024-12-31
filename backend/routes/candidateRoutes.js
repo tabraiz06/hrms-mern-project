@@ -2,6 +2,7 @@ const express = require("express");
 const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
+
 const {
   createCandidate,
   getCandidates,
@@ -18,7 +19,7 @@ const router = express.Router();
 /// Set up multer storage to save in backend/uploads/
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadPath = path.join(__dirname, "../uploads/");
+   const uploadPath = path.join("../uploads/");
 
     // Create the uploads directory if it doesn't exist
     if (!fs.existsSync(uploadPath)) {

@@ -11,6 +11,7 @@ const path = require("path");
 
 const cors = require("cors");
 
+
 const app = express();
 connectDB();
 
@@ -22,21 +23,14 @@ app.get("/", (req, res) => {
   res.send("API is running....");
 });
 
-
 // Serve uploads as static files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
-
 
 app.use("/api/auth", authRoutes);
 app.use("/api/candidates", candidateRoutes);
 app.use("/api/employees", employeeRoutes);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/leaves", leaveRoutes);
-
-
-
-
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

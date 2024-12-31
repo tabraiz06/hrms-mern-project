@@ -6,10 +6,10 @@ const path = require("path");
 // Create Leave Request
 exports.createLeave = async (req, res) => {
   const { employeeId, leaveType, startDate, endDate, reason } = req.body;
-  const document = req.file ? req.file.filename : null;
+  const document = req.file ? req.file.path : null;
 console.log("Request file:" , req.body);
   try {
-    const leave = await Leave.create({ employeeId, leaveType, startDate, endDate, reason, document });
+    const leave = await Leave.create({userId:req.user.id, employeeId, leaveType, startDate, endDate, reason, document });
     res.status(201).json(leave);
   } catch (err) {
     res.status(500).json({ message: 'Error creating leave request' });
@@ -20,7 +20,7 @@ console.log("Request file:" , req.body);
 exports.getLeaves = async (req, res) => {
   
   try {
-   const leaves = await Leave.find()
+   const leaves = await Leave.find({userId:req.user.id})
       .populate("employeeId")
       .sort({ startDate: 1 });
     res.json(leaves);

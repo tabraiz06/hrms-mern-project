@@ -68,6 +68,7 @@ const AddLeaveModal = ({
           <input
             type="file"
             className="border p-2 col-span-2"
+            accept='.pdf'
             onChange={(e) =>
               setNewLeave({ ...newLeave, document: e.target.files[0] })
             }

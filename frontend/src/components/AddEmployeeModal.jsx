@@ -14,6 +14,7 @@ const AddEmployeeModal = ({ isOpen, onClose, onSubmit }) => {
   });
 
   const fetchCandidates = async () => {
+    // http://localhost:5000
     const res = await axios.get(
       "https://hrms-mern-project-backend.vercel.app/api/candidates",
       {
@@ -134,10 +135,13 @@ const AddEmployeeModal = ({ isOpen, onClose, onSubmit }) => {
 
             {/* profilePic */}
             <div>
-              <label className="block mb-2 text-gray-700">Profile Picture</label>
+              <label className="block mb-2 text-gray-700">
+                Profile Picture
+              </label>
               <input
                 type="file"
                 name="profilePic"
+                accept="image/png, image/gif, image/jpeg"
                 onChange={(e) =>
                   setFormData({ ...formData, profilePic: e.target.files[0] })
                 }

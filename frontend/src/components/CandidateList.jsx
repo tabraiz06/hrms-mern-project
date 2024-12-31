@@ -4,67 +4,23 @@ import AddCandidateModal from "./AddCandidateModal";
 import axios from "axios";
 import { AiFillX } from "react-icons/ai";
 
-const initialCandidates = [
-  {
-    id: 1,
-    name: "John Doe",
-    email: "john@example.com",
-    phone: "123-456-7890",
-    position: "Frontend Developer",
-    status: "new",
-    experience: "3 years",
-  },
-  {
-    id: 2,
-    name: "Jane Smith",
-    email: "jane@example.com",
-    phone: "987-654-3210",
-    position: "Backend Developer",
-    status: "rejected",
-    experience: "5 years",
-  },
-  {
-    id: 3,
-    name: "Emily Johnson",
-    email: "emily@example.com",
-    phone: "111-222-3333",
-    position: "Designer",
-    status: "ongoing",
-    experience: "2 years",
-  },
-  {
-    id: 4,
-    name: "Michael Lee",
-    email: "michael@example.com",
-    phone: "444-555-6666",
-    position: "Manager",
-    status: "selected",
-    experience: "6 years",
-  },
-  {
-    id: 5,
-    name: "Sara Connor",
-    email: "sara@example.com",
-    phone: "777-888-9999",
-    position: "QA Tester",
-    status: "pending",
-    experience: "4 years",
-  },
-];
 
 const CandidateList = () => {
-  const [candidates, setCandidates] = useState(initialCandidates);
+  const [candidates, setCandidates] = useState([]);
   const [isModalOpen, setModalOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [positionFilter, setPositionFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
 
   const fetchCandidates = async () => {
-    const res = await axios.get("https://hrms-mern-project-backend.vercel.app/api/candidates", {
-      headers: {
-        Authorization: localStorage.getItem("token"),
-      },
-    });
+    const res = await axios.get(
+      "https://hrms-mern-project-backend.vercel.app/api/candidates",
+      {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      }
+    );
 
     const data = res.data;
     console.log(data);
@@ -272,12 +228,12 @@ const CandidateList = () => {
                 <td className="py-4 px-6">{candidate.experience}</td>
                 <td className="py-4 px-6">
                   <a
-                    href={`https://hrms-mern-project-backend.vercel.app/uploads/${candidate.resume}`}
-                    download={candidate.resume}
+                    href={candidate.resume}
+                    
                     target="_blank"
                     className="text-blue-500 hover:underline"
                   >
-                    Download
+                    Download Resume
                   </a>
                 </td>
                 <td

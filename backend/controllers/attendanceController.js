@@ -5,6 +5,7 @@ exports.createAttendance = async (req, res) => {
   const { employeeId, date, status, task } = req.body;
   try {
     const attendance = await Attendance.create({
+      userId:req.user.id,
       employeeId,
       date,
       status,
@@ -33,7 +34,7 @@ exports.updateAttendance = async (req, res) => {
   console.log(req.body);
   try {
     const attendance = await Attendance.findByIdAndUpdate(
-      req.params.id,
+      {_id:req.params.id},
       req.body,
       { new: true }
     );
@@ -56,6 +57,7 @@ exports.addAttendance = async (req, res) => {
 
 
     const attendanceRecords = filteredAttendance.map((employee) => ({
+      userId:req.user.id,
       employeeId: employee._id,
       date: new Date(),
       status: "Present", // Default status, you can change it as needed

@@ -23,22 +23,28 @@ const LeaveList = () => {
     // http://localhost:5000
     // https://hrms-mern-project-backend.vercel.app/api/leaves
     const fetchLeaves = async () => {
-      const res = await axios.get("https://hrms-mern-project-backend.vercel.app/api/leaves", {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-        },
-      });
+      const res = await axios.get(
+        "https://hrms-mern-project-backend.vercel.app/api/leaves",
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      );
       console.log(res.data);
       setLeaves(res.data || []);
     };
     fetchLeaves();
 
     const fetchEmployees = async () => {
-      const res = await axios.get("https://hrms-mern-project-backend.vercel.app/api/employees", {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-        },
-      });
+      const res = await axios.get(
+        "https://hrms-mern-project-backend.vercel.app/api/employees",
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      );
       setEmployees(res.data);
     };
     fetchEmployees();
@@ -75,11 +81,15 @@ const LeaveList = () => {
     formData.append("document", newLeave.document);
 
 
-    const res = await axios.post("https://hrms-mern-project-backend.vercel.app/api/leaves", formData, {
-      headers: {
-        Authorization: localStorage.getItem("token"),
-      },
-    });
+    const res = await axios.post(
+      "https://hrms-mern-project-backend.vercel.app/api/leaves",
+      formData,
+      {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      }
+    );
     setLeaves([...leaves, res.data]);
     setIsModalOpen(false);
     setNewLeave({
@@ -129,10 +139,11 @@ const LeaveList = () => {
           <tr>
             <th className="py-2">Employee</th>
             <th className="py-2">Leave Type</th>
+            <th className="py-2">Reason</th>
             <th className="py-2">Start Date</th>
             <th className="py-2">End Date</th>
-            <th className="py-2">Reason</th>
             <th className="py-2">Status</th>
+            <th className="py-2">Attached File</th>
           </tr>
         </thead>
         <tbody>
@@ -148,20 +159,21 @@ const LeaveList = () => {
               <tr key={leave._id} className="border-b">
                 <td className="py-2 flex justify-center items-center gap-4">
                   <img
-                    src={`https://hrms-mern-project-backend.vercel.app/uploads/${leave.employeeId.profilePic}`}
+                    src={leave.employeeId.profilePic}
                     alt="employee"
                     className="w-10 h-10 object-cover rounded-full"
                   />
                   {leave.employeeId.name}
                 </td>
                 <td className="py-2">{leave.leaveType}</td>
+                <td className="py-2">{leave.reason}</td>
                 <td className="py-2">
                   {new Date(leave.startDate).toLocaleDateString()}
                 </td>
                 <td className="py-2">
                   {new Date(leave.endDate).toLocaleDateString()}
                 </td>
-                <td className="py-2">{leave.reason}</td>
+
                 <td className="py-2">
                   <select
                     value={leave.status}
@@ -174,6 +186,10 @@ const LeaveList = () => {
                     <option value="Pending">Pending</option>
                     <option value="Rejected">Rejected</option>
                   </select>
+                </td>
+                <td className="py-2">
+                  
+                  <a href={leave.document} target="_blank">Attachment</a>
                 </td>
               </tr>
             ))}

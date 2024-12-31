@@ -12,9 +12,13 @@ const LeaveForm = ({ onClose }) => {
   const [error, setError] = useState("");
 
   // Fetch employee list for dropdown
+  // http://localhost:5000
+  //https://hrms-mern-project-backend.vercel.app/api/auth/login
   useEffect(() => {
     const fetchEmployees = async () => {
-      const { data } = await axios.get("/api/employees");
+      const { data } = await axios.get(
+        "https://hrms-mern-project-backend.vercel.app/api/employees"
+      );
       setEmployees(data);
     };
     fetchEmployees();

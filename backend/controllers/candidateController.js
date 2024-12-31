@@ -1,42 +1,43 @@
 const Candidate = require("../models/Candidate");
 const fs = require("fs");
-
+const cloudinary = require("../cloudinaryConfig");
 const PDFDocument = require("pdfkit");
 
 // Create Candidate
 exports.createCandidate = async (req, res) => {
-  
-  
   try {
-    
     const { name, email, phone, position, experience } = req.body;
-    const resume = req.file ? req.file.filename : null;
 
-    // Log the resume path to verify it
-    console.log("Resume path:", resume);
+    // Check if the file uploaded
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
 
-    // Create a new candidate with the uploaded resume
+    // Set the file to public after upload
+    const fileUrl = req.file.path;
+
+    // Proceed with saving the candidate
     const candidate = await Candidate.create({
-      userId:req.user.id,
+      userId: req.user.id,
       name,
       email,
       phone,
       position,
       experience,
-      resume,
+      resume: fileUrl,
     });
 
     res.status(201).json(candidate);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
 // Get All Candidates
 exports.getCandidates = async (req, res) => {
-  
   try {
-    const candidates = await Candidate.find({userId:req.user.id});
+    const candidates = await Candidate.find({ userId: req.user.id });
     res.json(candidates);
   } catch (err) {
     res.status(500).json({ message: "Error fetching candidates" });
@@ -125,4 +126,3 @@ exports.generateResumePDF = async (req, res) => {
     res.download(filePath);
   });
 };
-

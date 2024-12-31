@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 // Create Employee
 exports.createEmployee = async (req, res) => {
   const { name, email, phone, department, role } = req.body;
-  const profilePic = req.file ? req.file.filename : "";
+  const profilePic = req.file ? req.file.path : "";
 
   try {
     const existEmployee = await Employee.findOne({ email });
@@ -12,7 +12,7 @@ exports.createEmployee = async (req, res) => {
       return res.status(400).json({ message: "Employee already exists" });
     }
     const employee = await Employee.create({
-      userId:req.user.id,
+      userId: req.user.id,
       profilePic,
       name,
       email,
@@ -29,14 +29,7 @@ exports.createEmployee = async (req, res) => {
 // Get All Employees
 exports.getEmployees = async (req, res) => {
   try {
-    const { search, department, role } = req.query;
-
-    let query = {};
-    if (search) query.name = { $regex: search, $options: "i" };
-    if (department) query.department = department;
-    if (role) query.role = role;
-
-    const employees = await Employee.find(query);
+    const employees = await Employee.find({ userId: req.user.id });
     res.json(employees);
   } catch (err) {
     res.status(500).json({ message: "Error fetching employees" });

@@ -2,35 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReusableHeader from "./ReusableHeader";
 import axios from "axios";
 
-const initialAttendance = [
-  {
-    id: 1,
-    name: "John Doe",
-    department: "Development",
-    designation: "Frontend Developer",
-    task: "Frontend Project",
-    status: "present",
-    profileImg: "https://via.placeholder.com/50",
-  },
-  {
-    id: 2,
-    name: "Jane Smith",
-    department: "HR",
-    designation: "HR Manager",
-    task: "Recruitment",
-    status: "work from home",
-    profileImg: "https://via.placeholder.com/50",
-  },
-  {
-    id: 3,
-    name: "Alice Johnson",
-    department: "Marketing",
-    designation: "Marketing Manager",
-    task: "Campaign Management",
-    status: "absent",
-    profileImg: "https://via.placeholder.com/50",
-  },
-];
+
 
 const Attendance = () => {
   const [attendance, setAttendance] = useState([]);
@@ -40,13 +12,16 @@ const Attendance = () => {
     // http://localhost:5000/api/attendance
     // https://hrms-mern-project-backend.vercel.app/api/employees
 
-    const res = await fetch("https://hrms-mern-project-backend.vercel.app/api/attendance", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: localStorage.getItem("token"),
-      },
-    });
+    const res = await fetch(
+      "https://hrms-mern-project-backend.vercel.app/api/attendance",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: localStorage.getItem("token"),
+        },
+      }
+    );
     const data = await res.json();
 
     setAttendance(data);
@@ -185,7 +160,7 @@ const Attendance = () => {
                   >
                     <td className="py-4 px-6">
                       <img
-                        src="https://t3.ftcdn.net/jpg/06/01/17/18/360_F_601171862_l7yZ0wujj8o2SowiKTUsfLEEx8KunYNd.jpg"
+                        src={employee.employeeId.profilePic}
                         alt={employee.employeeId.name}
                         className="w-10 h-10 rounded-full"
                       />

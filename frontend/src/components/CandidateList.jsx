@@ -96,7 +96,7 @@ const CandidateList = () => {
     // https://hrms-mern-project-backend.vercel.app/api/candidates
 
     const res = await axios.post(
-      "http://localhost:5000/api/candidates",
+      "https://hrms-mern-project-backend.vercel.app/api/candidates",
       formData,
       {
         headers: {

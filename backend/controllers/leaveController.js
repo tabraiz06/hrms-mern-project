@@ -7,7 +7,7 @@ const path = require("path");
 exports.createLeave = async (req, res) => {
   const { employeeId, leaveType, startDate, endDate, reason } = req.body;
   const document = req.file ? req.file.path : null;
-console.log("Request file:" , req.body);
+
   try {
     const leave = await Leave.create({userId:req.user.id, employeeId, leaveType, startDate, endDate, reason, document });
     res.status(201).json(leave);

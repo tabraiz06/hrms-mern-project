@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const LeaveForm = ({ onClose }) => {
   const [leaveType, setLeaveType] = useState("");
@@ -42,14 +43,38 @@ const LeaveForm = ({ onClose }) => {
     if (document) formData.append("document", document);
 
     try {
-      await axios.post(
+     const res=  await axios.post(
         "https://hrms-mern-project-backend.vercel.app/api/leaves",
         formData
       );
-      alert("Leave request submitted successfully!");
+      
       onClose(); // Close the form modal after submission
-    } catch (err) {
+      if (res.status === 201) {
+        
+        toast.success(`🦄 ${"Leave request submitted successfully"} !`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    } catch (error) {
       setError("Failed to submit leave request");
+      toast.error(`🦄 ${"Failed to submit leave request"} !`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+
     }
   };
 

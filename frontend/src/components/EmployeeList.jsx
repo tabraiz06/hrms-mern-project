@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import {toast} from "react-toastify";
 import ReusableHeader from "./ReusableHeader"; // Assuming you have a reusable header component
 // import { Menu, MenuItem } from "@material-ui/core"; // Using Material-UI for the menu
 // import { HiDotsVertical } from "react-icons/hi";
@@ -21,7 +22,7 @@ const EmployeeList = () => {
       }
     );
     setEmployees(res.data);
-    console.log(res.data);
+    
   };
   useEffect(() => {
     fetchEmployees();
@@ -59,13 +60,37 @@ const EmployeeList = () => {
     if (res.status === 201) {
       fetchEmployees();
       setIsModalOpen(false);
+      
+      toast.success(`🦄 ${"Employee added successfully"} !`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+
     } else {
-      alert("Employee already exists");
+      
+      toast.error(`🦄 ${"Employee already exists"} !`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+
     }
   };
 
   const deleteEmployee = async (id) => {
-    await axios.delete(
+  const res=  await axios.delete(
       `https://hrms-mern-project-backend.vercel.app/api/employees/${id}`,
       {
         headers: {
@@ -74,6 +99,31 @@ const EmployeeList = () => {
       }
     );
     setEmployees(employees.filter((employee) => employee._id !== id));
+    if (res.status === 200) {
+      fetchEmployees();
+      toast.success(`🦄 ${"Employee deleted successfully"} !`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } else {
+      toast.error(`🦄 ${"Error deleting employee"} !`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+
   };
 
   const handleEditDeleteChange = (event, employee) => {
@@ -140,7 +190,7 @@ const EmployeeList = () => {
                 <td colSpan="8" className="py-4">
                   No employees found
                 </td>
-                {console.log(filteredEmployees)}
+             
               </tr>
             ) : (
               filteredEmployees.map((employee) => (

@@ -1,7 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 export default function Register() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -19,9 +21,32 @@ export default function Register() {
           name,
         }
       );
-      console.log("Registration successful", response.data);
+      localStorage.setItem("token", response.data.token);
+       if (response.data.token) {
+        toast.success(`🦄 ${"Registration Successfull"} !`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+         navigate("/");
+       }
     } catch (error) {
       console.error("Registration failed", error);
+      toast.error(`🦄 ${"Registration failed"} !`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 

@@ -3,6 +3,7 @@ import ReusableHeader from "./ReusableHeader";
 import AddCandidateModal from "./AddCandidateModal";
 import axios from "axios";
 import { AiFillX } from "react-icons/ai";
+import { toast } from "react-toastify";
 
 
 const CandidateList = () => {
@@ -23,7 +24,7 @@ const CandidateList = () => {
     );
 
     const data = res.data;
-    console.log(data);
+    
     setCandidates(data);
   };
   useEffect(() => {
@@ -40,7 +41,7 @@ const CandidateList = () => {
   );
 
   const handleAddCandidate = async (newCandidate) => {
-    console.log(newCandidate);
+    
     const formData = new FormData();
     formData.append("name", newCandidate.name);
     formData.append("email", newCandidate.email);
@@ -60,8 +61,34 @@ const CandidateList = () => {
         },
       }
     );
-    console.log(res.data);
-    fetchCandidates();
+ 
+   
+    if (res.status === 201) {
+       fetchCandidates();
+       toast.success(`🦄 ${"Candidate Added Successfully"} !`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+
+    }
+    else {
+      toast.error(`🦄 ${"Candidate Added Failed"} !`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+    }
   };
 
   // Status Options
@@ -81,14 +108,31 @@ const CandidateList = () => {
     );
 
     fetchCandidates();
+    if (updateCandidate.status === 200) {
+      toast.success(`🦄 ${"Status Updated Successfully"} !`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } else {
+      toast.error(`🦄 ${"Status Update Failed"} !`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
 
-    // const updatedCandidates = candidates.map((candidate) => {
-    //   if (candidate.id === id) {
-    //     return { ...candidate, status: newStatus };
-    //   }
-    //   return candidate;
-    // });
-    // setCandidates(updatedCandidates);
+
   };
 
   const handleDelete = async (id) => {
@@ -102,6 +146,31 @@ const CandidateList = () => {
     );
 
     fetchCandidates();
+    if (res.status === 200) {
+      toast.success(`🦄 ${"Candidate Deleted Successfully"} !`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+    else {
+      toast.error(`🦄 ${"Candidate Delete Failed"} !`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   };
   const getRowClass = (status) => {
     switch (status.toLowerCase()) {
@@ -233,7 +302,7 @@ const CandidateList = () => {
                     target="_blank"
                     className="text-blue-500 hover:underline"
                   >
-                    Download Resume
+                    View Resume
                   </a>
                 </td>
                 <td

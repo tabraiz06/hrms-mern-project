@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReusableHeader from "./ReusableHeader";
 import axios from "axios";
-
+import { toast } from "react-toastify";
 
 
 const Attendance = () => {
@@ -37,7 +37,7 @@ const Attendance = () => {
         },
       }
     );
-    console.log(res.data);
+    
     fetchAttendance();
     
   }
@@ -55,7 +55,7 @@ const Attendance = () => {
   ];
 
   // Filter Function
-  console.log(attendance);
+ 
   const filteredAttendance = attendance.filter(item=>
     (searchTerm ? item.employeeId.name.toLowerCase().includes(searchTerm.toLowerCase()): true) &&
     (filterDepartment ? item.employeeId.department === filterDepartment : true)
@@ -63,24 +63,47 @@ const Attendance = () => {
     
 
   const handleStatusUpdate =async (id, newStatus) => {
-    const res = await axios.put(
-      `https://hrms-mern-project-backend.vercel.app/api/attendance/${id}`,
-      {
-        status: newStatus,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: localStorage.getItem("token"),
+    try {
+      const res = await axios.put(
+        `https://hrms-mern-project-backend.vercel.app/api/attendance/${id}`,
+        {
+          status: newStatus,
         },
-      }
-    );
-    console.log(res.data);
-    
-    // const updatedAttendance = attendance.map((item) =>
-    //   item.id === id ? { ...item, status: newStatus } : item
-    // );
-    fetchAttendance()
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      );
+     if(res.status === 200) {
+       fetchAttendance();
+       toast.success(`🦄 ${"udate Successfull"} !`, {
+                 position: "top-right",
+                 autoClose: 5000,
+                 hideProgressBar: false,
+                 closeOnClick: true,
+                 pauseOnHover: true,
+                 draggable: true,
+                 progress: undefined,
+                 theme: "light",
+               });
+
+     }
+
+    } catch (error) {
+      console.log(error.message)
+       toast.error(`🦄 ${error.message} !`, {
+         position: "top-right",
+         autoClose: 5000,
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         theme: "light",
+       });
+    }
   };
 
   const getStatusClass = (status) => {

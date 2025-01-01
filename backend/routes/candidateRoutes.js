@@ -40,7 +40,7 @@ router.post(
   upload.single("document"),
   (req, res, next) => {
     // Log the file information to verify the upload
-    console.log("Uploaded file:", req.file);
+   
     next();
   },
   createCandidate

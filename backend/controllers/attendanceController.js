@@ -31,7 +31,7 @@ exports.getAttendanceRecords = async (req, res) => {
 
 // Update Attendance Record
 exports.updateAttendance = async (req, res) => {
-  console.log(req.body);
+  
   try {
     const attendance = await Attendance.findByIdAndUpdate(
       {_id:req.params.id},

@@ -1,5 +1,6 @@
 const Employee = require("../models/Employee");
 const Attendance = require("../models/Attendance");
+const Leave = require("../models/Leave");
 const mongoose = require("mongoose");
 // Create Employee
 exports.createEmployee = async (req, res) => {
@@ -51,17 +52,17 @@ exports.updateEmployee = async (req, res) => {
 // Delete Employee
 exports.deleteEmployee = async (req, res) => {
   try {
-    console.log("Delete request received for employee:", req.params.id);
-    const employeeId = new mongoose.Types.ObjectId(req.params.id);
+    
+    // const employeeId = new mongoose.Types.ObjectId(req.params.id);
 
     // Remove attendance records of deleted employee
-    const attendanceResult = await Attendance.deleteMany({ employeeId });
-
+    const attendanceResult = await Attendance.deleteMany({ employeeId : req.params.id });
+    await Leave.deleteMany({ employeeId: req.params.id });
     const deletedEmployee = await Employee.findByIdAndDelete({
-      _id: employeeId,
+      _id: req.params.id,
     });
     if (!deletedEmployee) {
-      console.log("Employee not found.");
+      
       return res.status(404).json({ message: "Employee not found" });
     }
 

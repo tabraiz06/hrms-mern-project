@@ -64,7 +64,7 @@ exports.updateCandidate = async (req, res) => {
       req.body,
       { new: true }
     );
-    res.json(candidate);
+    res.status(200).json(candidate);
   } catch (err) {
     res.status(500).json({ message: "Error updating candidate" });
   }
@@ -74,7 +74,7 @@ exports.updateCandidate = async (req, res) => {
 exports.deleteCandidate = async (req, res) => {
   try {
     await Candidate.findByIdAndDelete(req.params.id);
-    res.json({ message: "Candidate deleted" });
+    res.status(200).json({ message: "Candidate deleted" });
   } catch (err) {
     res.status(500).json({ message: "Error deleting candidate" });
   }

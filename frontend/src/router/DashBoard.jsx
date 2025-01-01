@@ -16,7 +16,7 @@ import CandidateList from "../components/CandidateList";
 const App = () => {
   const ProtectedRoute = ({ element }) => {
     const isAuthenticated = localStorage.getItem("token"); // Example check
-    console.log(isAuthenticated);
+    
     return isAuthenticated ? element : <Navigate to="/login" />;
   };
   return (

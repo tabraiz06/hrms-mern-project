@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-
+import { ToastContainer, toast } from "react-toastify";
 import Dashboard from "./router/DashBoard";
 import AuthPage from "./pages/AuthPage";
 
@@ -14,24 +14,30 @@ const App = () => {
     return isAuthenticated ? element : <Navigate to="/login" />;
   };
   return (
-    <Router>
-      <Routes>
-        <Route path="/login" element={<AuthPage />} />
-        <Route path="/" element={<ProtectedRoute element={<Dashboard />} />} />
-        <Route
-          path="/attendance"
-          element={<ProtectedRoute element={<AttendencePage />} />}
-        />
-        <Route
-          path="/employees"
-          element={<ProtectedRoute element={<EmployeeDashboard />} />}
-        />
-        <Route
-          path="/leaves"
-          element={<ProtectedRoute element={<LeavePage />} />}
-        />
-      </Routes>
-    </Router>
+    <div>
+<ToastContainer />
+      <Router>
+        <Routes>
+          <Route path="/login" element={<AuthPage />} />
+          <Route
+            path="/"
+            element={<ProtectedRoute element={<Dashboard />} />}
+          />
+          <Route
+            path="/attendance"
+            element={<ProtectedRoute element={<AttendencePage />} />}
+          />
+          <Route
+            path="/employees"
+            element={<ProtectedRoute element={<EmployeeDashboard />} />}
+          />
+          <Route
+            path="/leaves"
+            element={<ProtectedRoute element={<LeavePage />} />}
+          />
+        </Routes>
+      </Router>
+    </div>
   );
 };
 

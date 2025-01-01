@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import { ToastContainer, toast } from "react-toastify";
 export default function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("test@gmail.com");
@@ -19,19 +19,40 @@ export default function Login() {
           password,
         }
       );
-      console.log("Login successful", response.data);
+      
 
       localStorage.setItem("token", response.data.token);
       if (response.data.token) {
+        toast.success(`🦄 ${"Login Successfull"} !`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
         navigate("/");
       }
     } catch (error) {
       console.error("Login failed", error);
+      toast.error(`🦄 ${"Login Failed"} !`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
   return (
     <div className="p-6 max-w-md mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md">
+     
       <h2 className="text-2xl font-bold mb-4">Login</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">

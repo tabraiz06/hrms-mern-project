@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../assets/Logo.png";
+import { ToastContainer, toast } from "react-toastify";
 
 import {
   FaSearch,
@@ -20,6 +21,16 @@ const Sidebar = () => {
 
   const logout = () => {
     localStorage.removeItem("token");
+     toast.success(`🦄 ${"Logout Successfull"} !`, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
     window.location.href = "/";
   }
 

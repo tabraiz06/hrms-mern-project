@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ReusableHeader from "./ReusableHeader";
-
+import {toast} from "react-toastify";
 import AddLeaveModal from "./AddLeaveModal";
 import { FaBuromobelexperte } from "react-icons/fa";
 
@@ -18,35 +18,37 @@ const LeaveList = () => {
     document: null,
   });
   const [employees, setEmployees] = useState([]);
+const fetchLeaves = async () => {
+  const res = await axios.get(
+    "https://hrms-mern-project-backend.vercel.app/api/leaves",
+    {
+      headers: {
+        Authorization: localStorage.getItem("token"),
+      },
+    }
+  );
 
+  setLeaves(res.data || []);
+};
+
+ const fetchEmployees = async () => {
+   const res = await axios.get(
+     "https://hrms-mern-project-backend.vercel.app/api/employees",
+     {
+       headers: {
+         Authorization: localStorage.getItem("token"),
+       },
+     }
+   );
+   setEmployees(res.data);
+ };
   useEffect(() => {
     // http://localhost:5000
     // https://hrms-mern-project-backend.vercel.app/api/leaves
-    const fetchLeaves = async () => {
-      const res = await axios.get(
-        "https://hrms-mern-project-backend.vercel.app/api/leaves",
-        {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        }
-      );
-      console.log(res.data);
-      setLeaves(res.data || []);
-    };
+    
     fetchLeaves();
 
-    const fetchEmployees = async () => {
-      const res = await axios.get(
-        "https://hrms-mern-project-backend.vercel.app/api/employees",
-        {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        }
-      );
-      setEmployees(res.data);
-    };
+   
     fetchEmployees();
   }, []);
 
@@ -67,10 +69,36 @@ const LeaveList = () => {
         leave._id === id ? { ...leave, status: res.data.status } : leave
       )
     );
+    if (res.status === 200) {
+      fetchLeaves();
+      toast.success(`🦄 ${"Leave status updated successfully"} !`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+    else{
+      toast.error(`🦄 ${"Failed to update leave status"} !`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+
   };
 
   const addLeave = async () => {
-    console.log(newLeave);
+    
     const formData = new FormData();
     
     formData.append("employeeId", newLeave.employeeId);
@@ -100,6 +128,30 @@ const LeaveList = () => {
       reason: "",
       document: null,
     });
+    if (res.status === 201) {
+      fetchLeaves();
+      toast.success(`🦄 ${"Leave added successfully"} !`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } else {  
+      toast.error(`🦄 ${"Failed to add leave"} !`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   };
 
   return (

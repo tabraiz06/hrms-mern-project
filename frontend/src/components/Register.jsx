@@ -84,16 +84,7 @@ export default function Register() {
             required
           />
         </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium">Confirm Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="px-4 py-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-gray-700"
-            required
-          />
-        </div>
+       
         <button
           type="submit"
           className="w-full bg-green-600 text-white p-2 rounded"
